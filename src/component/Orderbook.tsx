@@ -118,6 +118,7 @@ const renderList = (
                 px="10px"
                 w="100px"
                 textAlign="center"
+                h="20px"
               >
                 {+price.toFixed(8)}
               </Text>
@@ -133,6 +134,7 @@ const renderList = (
                 left={type === "bid" ? 0 : undefined}
               />
               <Text
+                h="20px"
                 zIndex={2}
                 borderLeft={type === "bid" ? "1px solid rgb(46,47,58)" : "none"}
                 borderTop="1px solid rgb(46,47,58)"

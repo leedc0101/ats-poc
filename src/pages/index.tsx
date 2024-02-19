@@ -55,7 +55,7 @@ export default function Home() {
                     bithumbOrderbook[symbol].asks,
                     bithumbOrderbook[symbol].bids,
                   )}
-                  listLength={8}
+                  listLength={7}
                 />
               </>
             )}
@@ -72,7 +72,7 @@ export default function Home() {
                     coinoneOrderbook[symbol].asks,
                     coinoneOrderbook[symbol].bids,
                   )}
-                  listLength={8}
+                  listLength={7}
                 />
               </>
             )}
@@ -88,7 +88,7 @@ export default function Home() {
                     upbitOrderbook[symbol].asks,
                     upbitOrderbook[symbol].bids,
                   )}
-                  listLength={8}
+                  listLength={7}
                 />
               </>
             )}
@@ -106,7 +106,7 @@ export default function Home() {
                 accumulatedOrderbook[symbol].bids,
               )}
               fullOpacity
-              listLength={8}
+              listLength={7}
               stylePrefix="MakeItNiceAgain"
               showSpread={false}
             />
