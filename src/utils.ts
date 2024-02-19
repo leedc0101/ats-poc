@@ -27,8 +27,8 @@ export const orderbookToOrderbook = (
   asks: [number, number][],
   bids: [number, number][],
 ) => {
-  const sortedAsks = asks.sort(orderAsks).slice(0, 7);
-  const sortedBids = bids.sort(orderBids).slice(0, 7);
+  const sortedAsks = asks.sort(orderAsks);
+  const sortedBids = bids.sort(orderBids);
   return {
     asks: sortedAsks,
     bids: sortedBids,

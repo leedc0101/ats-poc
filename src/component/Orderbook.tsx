@@ -89,28 +89,48 @@ const defaultProps: Omit<Required<ExcludeRequiredProps<Props>>, "spread"> & {
 };
 
 type RenderListOptions = {
-  totalSize: number;
+  maxSize: number;
   type: "bid" | "ask";
 };
 
 /**
  * Render a list representing one side of an order book.
  */
-const renderList = (
-  list: PriceList,
-  { totalSize, type }: RenderListOptions,
-) => {
+const renderList = (list: PriceList, { maxSize, type }: RenderListOptions) => {
   return (
-    <Grid gridTemplateColumns={type === "bid" ? "repeat(2, 1fr)" : "1fr"}>
-      {list.map(([price, size], index) => {
-        const last = index === list.length - 1;
-        const acc = list.slice(index).reduce((acc, [, size]) => acc + size, 0);
+    <>
+      {(type === "bid" ? list : [...list].reverse()).map(
+        ([price, size], index) => {
+          const last = index === list.length - 1;
 
-        console.log(size, index, acc);
+          return (
+            <>
+              {type === "ask" ? (
+                <HStack position="relative" w="100px">
+                  <Box
+                    w={`${(size / maxSize) * 100}%`}
+                    h="full"
+                    position="absolute"
+                    right={0}
+                    bg="rgb(15, 41, 44)"
+                  />
+                  <Text
+                    h="20px"
+                    zIndex={2}
+                    borderTop="1px solid rgb(46,47,58)"
+                    borderBottom={last ? "1px solid rgb(46,47,58)" : "none"}
+                    px="5px"
+                    w="full"
+                    align="right"
+                    fontSize="11px"
+                  >
+                    {+size.toFixed(8)}
+                  </Text>
+                </HStack>
+              ) : (
+                <div />
+              )}
 
-        return (
-          <>
-            {type === "bid" && (
               <Text
                 borderLeft="1px solid rgb(46,47,58)"
                 borderTop="1px solid rgb(46,47,58)"
@@ -120,37 +140,39 @@ const renderList = (
                 textAlign="center"
                 h="20px"
               >
-                {+price.toFixed(8)}
+                {price.toLocaleString()}
               </Text>
-            )}
 
-            <HStack position="relative" w="100px">
-              <Box
-                w={`${(acc / totalSize) * 100}%`}
-                h="full"
-                bg={type === "bid" ? "rgb(58, 36, 37)" : "rgb(15, 41, 44)"}
-                position="absolute"
-                right={type === "ask" ? 0 : undefined}
-                left={type === "bid" ? 0 : undefined}
-              />
-              <Text
-                h="20px"
-                zIndex={2}
-                borderLeft={type === "bid" ? "1px solid rgb(46,47,58)" : "none"}
-                borderTop="1px solid rgb(46,47,58)"
-                borderBottom={last ? "1px solid rgb(46,47,58)" : "none"}
-                px="5px"
-                w="full"
-                align={type === "ask" ? "right" : "left"}
-                fontSize="11px"
-              >
-                {+size.toFixed(8)}
-              </Text>
-            </HStack>
-          </>
-        );
-      })}
-    </Grid>
+              {type === "bid" ? (
+                <HStack position="relative" w="100px">
+                  <Box
+                    w={`${(size / maxSize) * 100}%`}
+                    h="full"
+                    bg="rgb(58, 36, 37)"
+                    position="absolute"
+                    left={0}
+                  />
+                  <Text
+                    h="20px"
+                    zIndex={2}
+                    borderLeft="1px solid rgb(46,47,58)"
+                    borderTop="1px solid rgb(46,47,58)"
+                    borderBottom={last ? "1px solid rgb(46,47,58)" : "none"}
+                    px="5px"
+                    w="full"
+                    fontSize="11px"
+                  >
+                    {+size.toFixed(6)}
+                  </Text>
+                </HStack>
+              ) : (
+                <div />
+              )}
+            </>
+          );
+        },
+      )}
+    </>
   );
 };
 
@@ -174,12 +196,7 @@ const renderList = (
  * - Order entry systems
  * - Dashboards
  */
-export const OrderBook: React.FC<Props> = ({
-  book,
-  listLength,
-  spread: rawSpread,
-  stylePrefix,
-}) => {
+export const OrderBook: React.FC<Props> = ({ book, listLength }) => {
   const { bids, asks } = book;
 
   const limitedAsks = asks.slice(0, listLength);
@@ -194,18 +211,22 @@ export const OrderBook: React.FC<Props> = ({
       spacing={0}
       w="300px"
     >
-      <VStack flex={1}>
+      <Grid gridTemplateColumns="repeat(3, 1fr)">
         {renderList(limitedAsks, {
-          totalSize: limitedAsks.reduce((acc, [, size]) => acc + size, 0),
+          maxSize: limitedAsks.reduce(
+            (acc, [_, size]) => (acc > size ? acc : size),
+            0,
+          ),
           type: "ask",
         })}
-      </VStack>
-      <VStack flex={2}>
         {renderList(limitedBids, {
-          totalSize: limitedBids.reduce((acc, [, size]) => acc + size, 0),
+          maxSize: limitedBids.reduce(
+            (acc, [_, size]) => (acc > size ? acc : size),
+            0,
+          ),
           type: "bid",
         })}
-      </VStack>
+      </Grid>
     </HStack>
   );
 };

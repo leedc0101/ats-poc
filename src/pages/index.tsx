@@ -34,7 +34,11 @@ export default function Home() {
     <>
       <VStack p="50px" spacing="30px">
         <HStack w="full">
-          <Select onChange={(e) => setSymbol(e.target.value)} w="fit-content">
+          <Select
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            w="fit-content"
+          >
             {symbolList.map((symbol) => (
               <option key={symbol} value={symbol}>
                 {symbol}
@@ -105,10 +109,7 @@ export default function Home() {
                 accumulatedOrderbook[symbol].asks,
                 accumulatedOrderbook[symbol].bids,
               )}
-              fullOpacity
               listLength={7}
-              stylePrefix="MakeItNiceAgain"
-              showSpread={false}
             />
           </VStack>
           <VStack w="fit-content">
