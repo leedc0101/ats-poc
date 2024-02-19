@@ -19,9 +19,16 @@ export const orderAsks = (a: [number, number], b: [number, number]) => {
 
 // orderbook을 받아서 가격순으로 정렬하고 상위 5개만 리턴
 export const orderbookToOrderbook = (
-  asks: [number, number][],
-  bids: [number, number][],
+  asks?: [number, number][],
+  bids?: [number, number][],
 ) => {
+  if (asks === undefined || bids === undefined) {
+    return {
+      asks: [],
+      bids: [],
+
+    }
+  }
   const sortedAsks = asks.sort(orderAsks);
   const sortedBids = bids.sort(orderBids);
   return {

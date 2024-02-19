@@ -98,7 +98,7 @@ type RenderListOptions = {
 const renderList = (list: PriceList, { maxSize, type }: RenderListOptions) => {
   return (
     <>
-      {(type === "ask" ? list : [...list].reverse()).map(
+      {(type === "ask" ? list.reverse() : [...list]).map(
         ([price, size], index) => {
           const last = index === list.length - 1;
 
@@ -211,6 +211,13 @@ export const OrderBook: React.FC<Props> = ({ book, listLength }) => {
       w="300px"
     >
       <Grid gridTemplateColumns="repeat(3, 1fr)">
+      {renderList(limitedAsks, {
+          maxSize: limitedAsks.reduce(
+            (acc, [_, size]) => (acc > size ? acc : size),
+            0,
+          ),
+          type: "ask",
+        })}
         {renderList(limitedBids, {
           maxSize: limitedBids.reduce(
             (acc, [_, size]) => (acc > size ? acc : size),
@@ -218,13 +225,7 @@ export const OrderBook: React.FC<Props> = ({ book, listLength }) => {
           ),
           type: "bid",
         })}
-        {renderList(limitedAsks, {
-          maxSize: limitedAsks.reduce(
-            (acc, [_, size]) => (acc > size ? acc : size),
-            0,
-          ),
-          type: "ask",
-        })}
+
       </Grid>
     </HStack>
   );

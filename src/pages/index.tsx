@@ -30,7 +30,19 @@ export default function Home() {
 
   const symbolList = getSymbolList();
 
-  const onPost = async () => {
+  const onPostAsk = async () => {
+    const response = await fetch("/api/route", {
+      method: "POST",
+      body: JSON.stringify({
+        pair: symbol,
+        is_bid: false,
+        amount: Number(amount),
+      }),
+    });
+    const res = await response.json();
+    setExecutions(res.data);
+  };
+  const onPostBid = async () => {
     const response = await fetch("/api/route", {
       method: "POST",
       body: JSON.stringify({
@@ -42,7 +54,6 @@ export default function Home() {
     const res = await response.json();
     setExecutions(res.data);
   };
-
   return (
     <>
       <VStack p="50px" spacing="30px">
@@ -117,11 +128,11 @@ export default function Home() {
             </Text>
             <OrderBook
               book={orderbookToOrderbook(
-                Object.entries(merged.asks).map(([key, value]) => [
+                Object.entries(merged.asks).reverse().map(([key, value]) => [
                   Number(key),
                   value,
                 ]),
-                Object.entries(merged.bids).map(([key, value]) => [
+                Object.entries(merged.bids).reverse().map(([key, value]) => [
                   Number(key),
                   value,
                 ]),
@@ -136,7 +147,11 @@ export default function Home() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <Button onClick={onPost}>Confirm</Button>
+            <HStack>
+            <Button onClick={onPostAsk}>Ask</Button>
+            <Button onClick={onPostBid}>Bid</Button>
+
+            </HStack>
           </VStack>
         </HStack>
 
@@ -167,18 +182,22 @@ export default function Home() {
                   listLength={7}
                 />
               </VStack>
+              {executions.raw_data.upbit && 
+
               <VStack>
                 <Text fontSize="xl" fontWeight={600}>
                   Upbit
                 </Text>
-                <OrderBook
-                  book={orderbookToOrderbook(
-                    executions.raw_data.upbit.asks,
-                    executions.raw_data.upbit.bids,
-                  )}
-                  listLength={7}
-                />
+                  <OrderBook
+                    book={orderbookToOrderbook(
+                      executions.raw_data.upbit.asks,
+                      executions.raw_data.upbit.bids,
+                    )}
+                    listLength={7}
+                  />
               </VStack>
+                }
+
             </HStack>
 
             <HStack spacing="20px">
