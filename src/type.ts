@@ -1,11 +1,9 @@
 // 각 거래소의 orderbook
 export type ExchangeOrderbook = {
-  [key: string]: {
     exchange: string;
     symbol: string;
     asks: [number, number][];
     bids: [number, number][];
-  };
 };
 
 // 각 거래소의 trade

@@ -211,19 +211,19 @@ export const OrderBook: React.FC<Props> = ({ book, listLength }) => {
       w="300px"
     >
       <Grid gridTemplateColumns="repeat(3, 1fr)">
-        {renderList(limitedAsks, {
-          maxSize: limitedAsks.reduce(
-            (acc, [_, size]) => (acc > size ? acc : size),
-            0,
-          ),
-          type: "ask",
-        })}
         {renderList(limitedBids, {
           maxSize: limitedBids.reduce(
             (acc, [_, size]) => (acc > size ? acc : size),
             0,
           ),
           type: "bid",
+        })}
+        {renderList(limitedAsks, {
+          maxSize: limitedAsks.reduce(
+            (acc, [_, size]) => (acc > size ? acc : size),
+            0,
+          ),
+          type: "ask",
         })}
       </Grid>
     </HStack>
