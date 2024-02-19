@@ -44,5 +44,33 @@ export type PostOrderBody = {
   is_bid: boolean;
   amount: number;
   price?: number;
+}
 
+export type ExecuteResponse = {
+  is_bid: boolean;
+  merged_data: {
+    asks: {
+      [key: string]: number;
+    };
+    bids: {
+      [key: string]: number;
+    };
+    symbol: string;
+    timestamp: number;
+  }
+  order_id: string;
+  pair: string;
+  raw_data: {
+    upbit: ExchangeOrderbook;
+    bithumb: ExchangeOrderbook;
+    coinone: ExchangeOrderbook;
+  }
+  raw_routing: [number, number, string][];
+  requested_amount: string;
+  routes: {
+    [key: string]: [number, number ];
+  }
+  vwap: {
+    [key: string]: number[];
+  }
 }

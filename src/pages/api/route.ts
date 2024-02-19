@@ -6,11 +6,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  const reqBody = JSON.parse(req.body);
+  const body = {
+    is_bid: reqBody.is_bid,
+    amount: reqBody.amount,
+    pair: reqBody.pair.split("-")[0],
+  }
   
-  console.log(req.body);
   const response = await fetch("http://localhost:8000/route", {
     method: req.method,
-    body: req.body,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
   });
   const data = await response.json();
 
