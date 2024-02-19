@@ -218,7 +218,11 @@ export default function Home() {
                 />
               </VStack>
               <VStack w="fit-content">
-                <JsonView collapsed={1} value={executions} />
+                <JsonView
+                  collapsed={1}
+                  value={executions}
+                  enableClipboard={false}
+                />
               </VStack>
             </HStack>
           </>
