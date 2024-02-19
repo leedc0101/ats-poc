@@ -98,7 +98,7 @@ type RenderListOptions = {
 const renderList = (list: PriceList, { maxSize, type }: RenderListOptions) => {
   return (
     <>
-      {(type === "bid" ? list : [...list].reverse()).map(
+      {(type === "ask" ? list : [...list].reverse()).map(
         ([price, size], index) => {
           const last = index === list.length - 1;
 

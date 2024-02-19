@@ -25,7 +25,6 @@ export default function Home() {
 
   const { merged } = orderbookChunk;
 
-  console.log(coinoneOrderbook, bithumbOrderbook, upbitOrderbook);
   const symbolList = getSymbolList();
 
   const onPost = async () => {
@@ -40,6 +39,8 @@ export default function Home() {
     const res = await response.json();
     setExecutions(res.data);
   };
+
+  console.log(executions);
 
   return (
     <>
@@ -137,6 +138,10 @@ export default function Home() {
             <Button onClick={onPost}>Confirm</Button>
           </VStack>
         </HStack>
+
+        {/* {executions && (
+          <OrderBook book={executions} listLength={10} />
+        )} */}
       </VStack>
     </>
   );
