@@ -1,5 +1,4 @@
 import { Box, Grid, HStack, Text, VStack } from "@chakra-ui/react";
-import Big from "big.js";
 import React from "react";
 
 type PriceList = [number, number][];

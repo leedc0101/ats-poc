@@ -2,7 +2,6 @@ import { OrderBook } from "@/component/Orderbook";
 import { useOrderbook, useTrade } from "@/query";
 import { OrderbookChunk } from "@/type";
 import {
-  getAccumulatedOrderbook,
   getSymbolList,
   orderbookToOrderbook,
 } from "@/utils";
@@ -11,12 +10,12 @@ import { Button, HStack, Input, Select, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 
 export default function Home() {
+  const [amount, setAmount ] = useState("");
   const [symbol, setSymbol] = useState<string>("BTC-KRW");
+  const [executions, setExecutions] = useState([]);
+  const { data: orderbookData } = useOrderbook(symbol.split('-')[0]);
 
-  const { data: orderbookData } = useOrderbook();
-  const { data: tradeData } = useTrade();
-
-  if (!orderbookData || !tradeData) {
+  if (!orderbookData) {
     return <div>Loading...</div>;
   }
 
@@ -25,15 +24,33 @@ export default function Home() {
     coinone: coinoneOrderbook,
     bithumb: bithumbOrderbook,
     upbit: upbitOrderbook,
-  } = orderbookChunk;
-  const symbolList = getSymbolList(orderbookChunk);
+  } = orderbookChunk.orderbook;
+  
+  const { merged } = orderbookChunk
+  
+  console.log(coinoneOrderbook,  bithumbOrderbook, upbitOrderbook);
+  const symbolList = getSymbolList();
 
-  const accumulatedOrderbook = getAccumulatedOrderbook(orderbookChunk);
+  const onPost = async () => {
+      const response = await fetch(
+        "/api/route", {
+          method: "POST",
+          body: JSON.stringify({
+            pair: symbol,
+            is_bid: true,
+            amount
+          }),
+        }
+      )
+      const res = await response.json()
+      setExecutions(res.data);
+  };
 
   return (
     <>
       <VStack p="50px" spacing="30px">
         <HStack w="full">
+          
           <Select
             value={symbol}
             onChange={(e) => setSymbol(e.target.value)}
@@ -51,10 +68,9 @@ export default function Home() {
             {bithumbOrderbook?.[symbol] && (
               <>
                 <Text fontSize="xl" fontWeight={600}>
-                  Exchange1
+                  Bithumb
                 </Text>
                 <OrderBook
-                  // @ts-ignore
                   book={orderbookToOrderbook(
                     bithumbOrderbook[symbol].asks,
                     bithumbOrderbook[symbol].bids,
@@ -68,10 +84,9 @@ export default function Home() {
             {coinoneOrderbook?.[symbol] && (
               <>
                 <Text fontSize="xl" fontWeight={600}>
-                  Exchange2
+                  Coinone
                 </Text>
                 <OrderBook
-                  //@ts-ignore
                   book={orderbookToOrderbook(
                     coinoneOrderbook[symbol].asks,
                     coinoneOrderbook[symbol].bids,
@@ -85,7 +100,7 @@ export default function Home() {
             {upbitOrderbook?.[symbol] && (
               <>
                 <Text fontSize="xl" fontWeight={600}>
-                  Exchange3
+                  Upbit
                 </Text>
                 <OrderBook
                   book={orderbookToOrderbook(
@@ -106,15 +121,15 @@ export default function Home() {
             </Text>
             <OrderBook
               book={orderbookToOrderbook(
-                accumulatedOrderbook[symbol].asks,
-                accumulatedOrderbook[symbol].bids,
+                Object.entries(merged.asks).map(([key, value]) => [Number(key), value]),
+                Object.entries(merged.bids).map(([key, value]) => [Number(key), value]),
               )}
-              listLength={7}
+              listLength={10}
             />
           </VStack>
           <VStack w="fit-content">
-            <Input placeholder="수량" type="number" />
-            <Button>Confirm</Button>
+            <Input placeholder="수량" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}/>
+            <Button onClick={onPost}>Confirm</Button>
           </VStack>
         </HStack>
       </VStack>

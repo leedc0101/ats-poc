@@ -21,9 +21,17 @@ export type ExchangeTrade = {
 
 // /orderbook 엔드포인트 넘어오는 그대로
 export type OrderbookChunk = {
-  coinone: ExchangeOrderbook;
-  bithumb: ExchangeOrderbook;
-  upbit: ExchangeOrderbook;
+  merged: {
+    asks: { [key: string]: number }
+    bids: { [key: string]: number }
+    symbol: string;
+    timestamp: number;
+  };
+  orderbook: {
+    bithumb: ExchangeOrderbook;
+    coinone: ExchangeOrderbook;
+    upbit: ExchangeOrderbook;
+  }
 };
 
 // /trade 엔드포인트 넘어오는 그대로
@@ -32,3 +40,11 @@ export type TradeChunk = {
   bithumb: ExchangeTrade;
   upbit: ExchangeTrade;
 };
+
+export type PostOrderBody = {
+  pair: string;
+  is_bid: boolean;
+  amount: number;
+  price?: number;
+
+}

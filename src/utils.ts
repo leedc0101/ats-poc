@@ -1,15 +1,10 @@
 import { ExchangeOrderbook, OrderbookChunk } from "./type";
 
 // /orderbook 엔드포인트에서 SymbolList를 가져오는 함수
-export const getSymbolList = (orderbook: OrderbookChunk) => {
-  const list: string[] = [];
-  Object.values(orderbook).forEach((exchangeOrderbook) => {
-    Object.keys(exchangeOrderbook).forEach((symbol) => {
-      list.push(symbol);
-    });
-  });
+export const getSymbolList = () => {
+  const list: string[] = ["BTC-KRW", "USDT-KRW"];
 
-  return Array.from(new Set(list));
+  return list;
 };
 
 // Bid 가격 순으로 정렬
@@ -57,7 +52,7 @@ export const getAccumulatedOrderbook = (
   Object.values(orderbook).forEach((exchangeOrderbook) => {
     Object.entries(exchangeOrderbook).forEach(([symbol, orderbook]) => {
       const { asks, bids } = orderbook;
-      asks.forEach(([price, qty]) => {
+      asks.forEach(([price, qty]: any) => {
         const accumulatedAsk = accumulatedOrderbook[symbol].asks.find(
           (ask) => ask[0] === price,
         );
@@ -67,7 +62,7 @@ export const getAccumulatedOrderbook = (
           accumulatedOrderbook[symbol].asks.push([price, qty]);
         }
       });
-      bids.forEach(([price, qty]) => {
+      bids.forEach(([price, qty]: any) => {
         const accumulatedBid = accumulatedOrderbook[symbol].bids.find(
           (bid) => bid[0] === price,
         );

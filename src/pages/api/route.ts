@@ -6,8 +6,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { symbol } = req.query
-  const response = await fetch(`http://localhost:8000/orderbook/${symbol}`);
+  
+  console.log(req.body);
+  const response = await fetch("http://localhost:8000/route", {
+    method: req.method,
+    body: req.body,
+  });
   const data = await response.json();
 
   res.status(200).json(data);
