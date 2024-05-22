@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { PostOrderBody } from "@/type";
 
 export const useOrderbook = (symbol: string) => {
   console.log("asd");
@@ -23,6 +22,3 @@ export const useTrade = () => {
     refetchInterval: 1000,
   });
 };
-
-
-
