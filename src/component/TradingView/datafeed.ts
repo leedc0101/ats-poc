@@ -86,6 +86,7 @@ export const subscribeBars = (
     const data = JSON.parse(event.data);
     const bar = {
       ...data,
+      volume: Number(data.volume),
     };
     onRealtimeCallback(bar);
   };
