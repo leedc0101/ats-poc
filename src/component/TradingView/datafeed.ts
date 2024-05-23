@@ -47,10 +47,12 @@ export const getBars = async (
   const res = await fetch(
     `${REST_API_ENDPOINT}/candle/${resolutionMap[resolution]}/${symbolInfo.name}/${from_date}/${to_date}`,
   );
-  console.log(res);
+
   const result = await res.json();
 
-  const bars = [...result].reverse();
+  const bars = [...result]
+    .map((el) => ({ ...el, volume: Number(el.volume) }))
+    .reverse();
 
   setTimeout(() => onHistoryCallback(bars));
 };
