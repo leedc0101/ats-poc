@@ -984,11 +984,6 @@
   resolved "https://registry.npmjs.org/@emotion/weak-memoize/-/weak-memoize-0.3.1.tgz"
   integrity sha512-EsBwpc7hBUJWAsNPBmJy4hxWx12v6bshQsldrVmjxJoc3isbxhOrF2IcCpaXxfvq03NwkI7sbsOLXbYuqF/8Ww==
 
-"@lab49/react-order-book@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.npmjs.org/@lab49/react-order-book/-/react-order-book-0.1.4.tgz"
-  integrity sha512-nJP8LYb+ZV4Sh6sG4EIZ02uG+r914cyzwRC/u6GLPZv8R9M+7RYs3o8bmZKnZwOogH/Ca2YOGhYcEywvYlh/AQ==
-
 "@next/env@14.1.0":
   version "14.1.0"
   resolved "https://registry.npmjs.org/@next/env/-/env-14.1.0.tgz"
@@ -1129,11 +1124,6 @@
   version "0.16.8"
   resolved "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.8.tgz"
   integrity sha512-WZLiwShhwLRmeV6zH+GkbOFT6Z6VklCItrDioxUnv+u4Ll+8vKeFySoFyK/0ctcRpOmwAicELfmys1sDc/Rw+A==
-
-"@uiw/react-json-view@^2.0.0-alpha.12":
-  version "2.0.0-alpha.12"
-  resolved "https://registry.yarnpkg.com/@uiw/react-json-view/-/react-json-view-2.0.0-alpha.12.tgz#755d688462f25d89c5dcf5fa74eadc84e133b176"
-  integrity sha512-m0h5+gcebgHKmFfhxLXc/OoSLBQsHu0b+rVO7tDNpQwS0+vM1P6LezEKTuHENoQkv2QXQ0GxpZBLNykKD3fEPw==
 
 "@zag-js/dom-query@0.16.0":
   version "0.16.0"
@@ -1558,6 +1548,11 @@ react-style-singleton@^2.2.1:
     get-nonce "^1.0.0"
     invariant "^2.2.4"
     tslib "^2.0.0"
+
+react-use-websocket@^4.8.1:
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/react-use-websocket/-/react-use-websocket-4.8.1.tgz#be06a0bc956c6d56391a29cbe2caa6ae8edb5615"
+  integrity sha512-FTXuG5O+LFozmu1BRfrzl7UIQngECvGJmL7BHsK4TYXuVt+mCizVA8lT0hGSIF0Z0TedF7bOo1nRzOUdginhDw==
 
 react@^18:
   version "18.2.0"

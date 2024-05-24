@@ -2,19 +2,20 @@ import { REST_API_ENDPOINT, WS_API_ENDPOINT } from "@/constant";
 import { configurationData, resolutionMap } from "./config";
 import { symbols } from "./constant";
 
-// const resolutionMap = {
-//   1: "1m",
-//   5: "5m",
-//   15: "15m",
-//   60: "1h",
-//   240: "4h",
-//   "1D": "1d",
-// };
-
 const channelToSubscription = new Map();
 
 export const onReady = (callback: any) => {
   setTimeout(() => callback(configurationData));
+};
+
+export const resolveSymbol = async (
+  symbolName: any,
+  onSymbolResolvedCallback: any,
+  onResolveErrorCallback: any,
+) => {
+  const symbolInfo = symbols.find((el) => symbolName === el.name);
+
+  setTimeout(() => onSymbolResolvedCallback(symbolInfo));
 };
 
 export const searchSymbols = async (
@@ -39,7 +40,7 @@ export const getBars = async (
   onHistoryCallback: any,
   onErrorCallback: any,
 ) => {
-  const { countBack, from, to } = periodParams;
+  const { from, to } = periodParams;
 
   const from_date = new Date(from * 1000).toISOString();
   const to_date = new Date(to * 1000).toISOString();

@@ -98,7 +98,7 @@ type RenderListOptions = {
 const renderList = (list: PriceList, { maxSize, type }: RenderListOptions) => {
   return (
     <>
-      {(type === "ask" ? list.reverse() : [...list]).map(
+      {(type === "bid" ? [...list].reverse() : [...list]).map(
         ([price, size], index) => {
           const last = index === list.length - 1;
 
@@ -195,7 +195,7 @@ const renderList = (list: PriceList, { maxSize, type }: RenderListOptions) => {
  * - Order entry systems
  * - Dashboards
  */
-export const OrderBook: React.FC<Props> = ({ book, listLength }) => {
+export const Orderbook: React.FC<Props> = ({ book, listLength }) => {
   const { bids, asks } = book;
 
   const limitedAsks = asks.slice(0, listLength);
@@ -211,7 +211,7 @@ export const OrderBook: React.FC<Props> = ({ book, listLength }) => {
       w="300px"
     >
       <Grid gridTemplateColumns="repeat(3, 1fr)">
-      {renderList(limitedAsks, {
+        {renderList(limitedAsks, {
           maxSize: limitedAsks.reduce(
             (acc, [_, size]) => (acc > size ? acc : size),
             0,
@@ -225,10 +225,9 @@ export const OrderBook: React.FC<Props> = ({ book, listLength }) => {
           ),
           type: "bid",
         })}
-
       </Grid>
     </HStack>
   );
 };
 
-OrderBook.defaultProps = defaultProps;
+Orderbook.defaultProps = defaultProps;
